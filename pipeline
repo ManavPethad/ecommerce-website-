@@ -1,0 +1,25 @@
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Clone') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/ManavPethad/ecommerce-website-.git'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                sshagent(['3.110.88.54']) {
+                    sh '''
+                        scp -o StrictHostKeyChecking=no index.html \
+                        ubuntu@3.110.88.54:/var/www/html/
+                    '''
+                }
+            }
+        }
+
+    }
+} 
